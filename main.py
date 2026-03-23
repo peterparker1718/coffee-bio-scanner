@@ -9,7 +9,6 @@ import google.generativeai as genai
 import uvicorn
 from pathlib import Path
 
-
 app = FastAPI(title="Java Bridge Coffee Bio Scanner", version="1.0.0")
 
 app.add_middleware(
@@ -33,7 +32,6 @@ You are an expert FDA-inspired coffee bean biosecurity analyst with deep knowled
 - Coffee bean defect classification
 - Moisture content analysis
 - Microbial risk assessment
-
 Analyze this coffee bean image and provide a STRICT JSON response (no markdown, just JSON):
 {
   "overall_score": <0-100>,
@@ -82,34 +80,50 @@ Analyze this coffee bean image and provide a STRICT JSON response (no markdown, 
   ],
   "summary": "<2-3 sentence executive summary for supply chain decision makers>"
 }
-
 Be specific, professional, and actionable. Base analysis on visible characteristics.
 """
 
-@app.get("/", response_class=HTMLResponse)
-async def root():
-    html_path = Path("templates/index.html")
+
+def serve_template(filename: str) -> HTMLResponse:
+    """Helper to serve HTML templates."""
+    html_path = Path(f"templates/{filename}")
     if html_path.exists():
         return HTMLResponse(content=html_path.read_text())
-    return HTMLResponse(content="<h1>Coffee Bio Scanner - Server Running</h1>")
+    return HTMLResponse(content=f"<h1>Page not found: {filename}</h1>", status_code=404)
+
+
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return serve_template("index.html")
+
+
+@app.get("/scanner", response_class=HTMLResponse)
+async def scanner_page():
+    return serve_template("scanner.html")
+
+
+@app.get("/founder", response_class=HTMLResponse)
+async def founder_page():
+    return serve_template("founder.html")
+
 
 @app.post("/analyze")
 async def analyze_coffee(image: UploadFile = File(...)):
     if not GOOGLE_API_KEY:
         raise HTTPException(status_code=500, detail="GOOGLE_API_KEY not configured")
-    
+
     # Read and validate image
     contents = await image.read()
     if len(contents) > 10 * 1024 * 1024:  # 10MB limit
         raise HTTPException(status_code=400, detail="Image too large (max 10MB)")
-    
+
     if not image.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
-    
+
     try:
         # Encode image for Gemini
         image_data = base64.b64encode(contents).decode("utf-8")
-        
+
         # Create Gemini request with image
         response = model.generate_content([
             ANALYSIS_PROMPT,
@@ -118,7 +132,7 @@ async def analyze_coffee(image: UploadFile = File(...)):
                 "data": image_data
             }
         ])
-        
+
         # Parse JSON response
         response_text = response.text.strip()
         # Clean up markdown code blocks if present
@@ -126,15 +140,15 @@ async def analyze_coffee(image: UploadFile = File(...)):
             response_text = response_text.split("```")[1]
             if response_text.startswith("json"):
                 response_text = response_text[4:]
-        response_text = response_text.strip()
-        
+            response_text = response_text.strip()
+
         analysis = json.loads(response_text)
         analysis["filename"] = image.filename
         analysis["file_size"] = len(contents)
-        
+
         return JSONResponse(content={"success": True, "analysis": analysis})
-        
-    except json.JSONDecodeError as e:
+
+    except json.JSONDecodeError:
         # Return raw text if JSON parsing fails
         return JSONResponse(content={
             "success": True,
@@ -146,9 +160,11 @@ async def analyze_coffee(image: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "api_key_configured": bool(GOOGLE_API_KEY)}
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
