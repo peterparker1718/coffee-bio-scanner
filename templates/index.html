@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Bridge Coffee Bio Scanner | FDA-Inspired AI Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .coffee-gradient { background: linear-gradient(135deg, #451a03 0%, #78350f 100%); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .result-item { border-left: 4px solid #78350f; padding-left: 1rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+    <!-- Navigation -->
+    <nav class="p-6 border-b border-white/10 glass-card sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">☕</span>
+                <h1 class="text-xl font-bold tracking-tight">Java Bridge <span class="text-amber-500">Bio Scanner</span></h1>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-slate-400">
+                <a href="#" class="hover:text-amber-500 transition">Dashboard</a>
+                <a href="#" class="hover:text-amber-500 transition">History</a>
+                <a href="#" class="hover:text-amber-500 transition">FDA Standards</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 mt-12">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-xs font-bold uppercase tracking-widest border border-amber-500/20">Agentic AI Engine</span>
+            <h2 class="text-4xl font-bold mt-4 mb-4">Coffee Bean Quality & Biosecurity</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto">FDA-inspired real-time analysis for Indonesian specialty coffee trade. Upload or capture an image to begin 7-point diagnostic.</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="glass-card rounded-3xl p-8 mb-12 text-center border-dashed border-2 border-white/10 hover:border-amber-500/50 transition-all group cursor-pointer" id="drop-zone">
+            <input type="file" id="file-input" class="hidden" accept="image/*" capture="environment">
+            <div id="upload-prompt">
+                <div class="w-20 h-20 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-camera text-3xl text-amber-500"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Upload or Capture Image</h3>
+                <p class="text-slate-500 text-sm mb-6">Support PNG, JPG, WEBP (Max 10MB)</p>
+                <button class="px-8 py-3 bg-amber-600 hover:bg-amber-500 rounded-xl font-bold transition-all shadow-lg shadow-amber-900/20" onclick="document.getElementById('file-input').click()">
+                    Select File
+                </button>
+            </div>
+            
+            <div id="preview-container" class="hidden">
+                <img id="image-preview" class="max-h-80 mx-auto rounded-2xl mb-6 shadow-2xl border-4 border-white/5">
+                <div class="flex justify-center gap-4">
+                    <button class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm transition" onclick="resetUpload()">Cancel</button>
+                    <button id="analyze-btn" class="px-6 py-2 bg-amber-600 hover:bg-amber-500 rounded-lg text-sm font-bold transition" onclick="startAnalysis()">Analyze Sample</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="hidden text-center py-12">
+            <div class="inline-block w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mb-4"></div>
+            <p class="text-amber-500 font-medium animate-pulse">Running Agentic Bio-Diagnostics...</p>
+            <p class="text-xs text-slate-500 mt-2">Checking for moisture, bacteria, and defects</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div class="flex items-center justify-between">
+                <h3 class="text-2xl font-bold">Analysis Results</h3>
+                <div id="score-badge" class="px-4 py-2 bg-green-500/20 text-green-500 rounded-xl font-bold border border-green-500/20">
+                    Score: <span id="res-score">--</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Summary Card -->
+                <div class="glass-card rounded-2xl p-6 md:col-span-2 border-l-4 border-amber-500">
+                    <h4 class="text-sm font-bold uppercase text-slate-500 mb-2 tracking-widest">Executive Summary</h4>
+                    <p id="res-summary" class="text-lg leading-relaxed italic"></p>
+                </div>
+
+                <!-- Biosecurity Checks -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h4 class="text-amber-500 font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-microscope"></i> Biosecurity Risk
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">Bacterial Risk</span>
+                            <span id="res-bacteria" class="font-semibold"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">Mold Detection</span>
+                            <span id="res-mold" class="font-semibold"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">Moisture Estimate</span>
+                            <span id="res-moisture" class="font-semibold"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quality & FDA -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h4 class="text-amber-500 font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-check-circle"></i> Quality & Compliance
+                    </h4>
+                    <div class="space-y-4">
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">Grade</span>
+                            <span id="res-grade" class="font-semibold"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">FDA Import Status</span>
+                            <span id="res-fda" class="font-semibold"></span>
+                        </div>
+                        <div class="result-item">
+                            <span class="text-xs text-slate-500 block uppercase font-bold">Defect Class</span>
+                            <span id="res-defects" class="font-semibold"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Items -->
+                <div class="glass-card rounded-2xl p-6 md:col-span-2">
+                    <h4 class="text-amber-500 font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i> Strategic Recommendations
+                    </h4>
+                    <ul id="res-recommendations" class="list-disc list-inside space-y-2 text-slate-300"></ul>
+                </div>
+            </div>
+            
+            <div class="text-center pt-8">
+                <button class="px-8 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition-all" onclick="resetUpload()">
+                    Analyze New Sample
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="max-w-4xl mx-auto px-6 mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-sm">
+        <p>© 2026 Java Bridge Coffee. Built for Indonesia-US Direct Trade Excellence.</p>
+        <p class="mt-2 flex justify-center gap-4">
+            <a href="#" class="hover:text-amber-500 transition">GitHub</a>
+            <span>•</span>
+            <a href="#" class="hover:text-amber-500 transition">LinkedIn</a>
+            <span>•</span>
+            <a href="#" class="hover:text-amber-500 transition">Contact</a>
+        </p>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const results = document.getElementById('results');
+        const loading = document.getElementById('loading');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-amber-500'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-amber-500'); });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-amber-500');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                uploadPrompt.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetUpload() {
+            fileInput.value = '';
+            uploadPrompt.classList.remove('hidden');
+            previewContainer.classList.add('hidden');
+            results.classList.add('hidden');
+            loading.classList.add('hidden');
+        }
+
+        async function startAnalysis() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            previewContainer.classList.add('hidden');
+            loading.classList.remove('hidden');
+            
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    displayResults(data.analysis);
+                } else {
+                    alert('Analysis failed: ' + data.detail);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error. Is the server running?');
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        function displayResults(data) {
+            document.getElementById('res-score').textContent = data.overall_score;
+            document.getElementById('res-summary').textContent = data.summary;
+            document.getElementById('res-grade').textContent = data.grade;
+            document.getElementById('res-bacteria').textContent = `${data.bacterial_risk.level} - ${data.bacterial_risk.indicators}`;
+            document.getElementById('res-mold').textContent = `${data.mold_detection.severity} (${data.mold_detection.type})`;
+            document.getElementById('res-moisture').textContent = `${data.moisture_content.estimate} (${data.moisture_content.status})`;
+            document.getElementById('res-fda').textContent = data.fda_compliance.import_eligible ? 'ELIGIBLE' : 'INELIGIBLE - ' + data.fda_compliance.action_required;
+            document.getElementById('res-defects').textContent = `${data.defect_analysis.sca_category} - ${data.defect_analysis.primary_defects.join(', ') || 'None visible'}`;
+            
+            const recList = document.getElementById('res-recommendations');
+            recList.innerHTML = '';
+            data.recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                recList.appendChild(li);
+            });
+
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
