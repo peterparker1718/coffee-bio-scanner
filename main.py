@@ -9,6 +9,7 @@ import google.generativeai as genai
 import uvicorn
 from pathlib import Path
 
+
 app = FastAPI(title="Java Bridge Coffee Bio Scanner", version="1.0.0")
 
 app.add_middleware(
