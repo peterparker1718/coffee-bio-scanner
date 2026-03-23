@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet the Founder | Java Bridge Coffee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+    .coffee-gradient { background: linear-gradient(135deg, #451a03 0%, #78350f 100%); }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .timeline-dot { width: 12px; height: 12px; background: #d97706; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Navigation -->
+  <nav class="p-6 border-b border-white/10 glass-card sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">&#9749;</span>
+        <h1 class="text-xl font-bold tracking-tight">Java Bridge <span class="text-amber-500">Coffee</span></h1>
+      </div>
+      <div class="hidden md:flex gap-6 text-sm font-medium text-slate-400">
+        <a href="/" class="hover:text-amber-500 transition">Home</a>
+        <a href="/scanner" class="hover:text-amber-500 transition">Scanner</a>
+        <a href="/founder" class="text-white">Our Story</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-20">
+    <!-- Hero -->
+    <div class="text-center mb-16">
+      <span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-xs font-bold uppercase tracking-widest border border-amber-500/20">The Founder</span>
+      <h2 class="text-5xl font-bold mt-6 mb-6 leading-tight">Building a <span class="text-amber-500">Bridge</span> Between Worlds</h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">A technology veteran with deep roots in East Java, using AI to transform how specialty coffee reaches the world.</p>
+    </div>
+
+    <!-- Founder Profile -->
+    <div class="glass-card rounded-3xl p-10 mb-12">
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+        <div class="flex-1">
+          <h3 class="text-3xl font-bold mb-2">Christopher D. Parker</h3>
+          <p class="text-amber-500 font-semibold mb-6">Founder &amp; CEO, Java Bridge Coffee</p>
+          <p class="text-slate-300 mb-4">After a career spanning Frontier Communications, Microsoft, and cutting-edge AI development, Christopher discovered that the most powerful technology he could build wasn&#39;t for a Fortune 500 company &mdash; it was for his family&#39;s coffee farm in East Java, Indonesia.</p>
+          <p class="text-slate-300 mb-4">His wife&#39;s family has cultivated Arabica coffee on the slopes of East Java for generations. Christopher saw firsthand the systemic problem: exceptional beans were being sold as commodity grade because smallholder farmers lacked the tools to prove their quality to international buyers.</p>
+          <p class="text-slate-300">Java Bridge Coffee was founded to solve that problem &mdash; combining direct-trade relationships, AI-powered biosecurity analysis, and full supply chain transparency to bring world-class East Java coffee directly to US roasters and retailers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-8 text-center">The Journey</h3>
+      <div class="space-y-8">
+        <div class="flex gap-6">
+          <div class="timeline-dot mt-1"></div>
+          <div>
+            <p class="text-amber-500 text-sm font-bold">Career Foundation</p>
+            <h4 class="font-bold text-lg">Technology &amp; Enterprise</h4>
+            <p class="text-slate-400">Built expertise at Frontier Communications and Microsoft in enterprise technology, logistics systems, and large-scale data infrastructure.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="timeline-dot mt-1"></div>
+          <div>
+            <p class="text-amber-500 text-sm font-bold">The Connection</p>
+            <h4 class="font-bold text-lg">Family Roots in East Java</h4>
+            <p class="text-slate-400">Through family ties to East Java coffee growers, witnessed the quality gap between farm-level excellence and commodity market pricing firsthand.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="timeline-dot mt-1"></div>
+          <div>
+            <p class="text-amber-500 text-sm font-bold">2024</p>
+            <h4 class="font-bold text-lg">Java Bridge Coffee Founded</h4>
+            <p class="text-slate-400">Launched with a mission to create direct-trade pathways for East Java specialty coffee, backed by AI biosecurity technology exceeding FDA import standards.</p>
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <div class="timeline-dot mt-1"></div>
+          <div>
+            <p class="text-amber-500 text-sm font-bold">Today</p>
+            <h4 class="font-bold text-lg">AI Bio-Scanner Prototype</h4>
+            <p class="text-slate-400">Deployed the world&#39;s first AI-powered coffee biosecurity scanner using Google Gemini 1.5 Flash, enabling real-time quality assessment at origin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <div class="glass-card p-6 rounded-2xl text-center">
+        <div class="text-amber-500 text-3xl mb-4"><i class="fas fa-handshake"></i></div>
+        <h4 class="font-bold mb-2">Direct Partnership</h4>
+        <p class="text-slate-400 text-sm">Farmer-to-buyer relationships that eliminate middlemen and raise farmer income.</p>
+      </div>
+      <div class="glass-card p-6 rounded-2xl text-center">
+        <div class="text-amber-500 text-3xl mb-4"><i class="fas fa-microscope"></i></div>
+        <h4 class="font-bold mb-2">Science-Backed Quality</h4>
+        <p class="text-slate-400 text-sm">FDA-inspired AI analysis that proves specialty grade at every shipment.</p>
+      </div>
+      <div class="glass-card p-6 rounded-2xl text-center">
+        <div class="text-amber-500 text-3xl mb-4"><i class="fas fa-globe-asia"></i></div>
+        <h4 class="font-bold mb-2">East Java First</h4>
+        <p class="text-slate-400 text-sm">Championing the under-recognized coffee terroir of East Java to global specialty markets.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="glass-card rounded-3xl p-10 text-center coffee-gradient">
+      <h3 class="text-2xl font-bold mb-4">Ready to Source Exceptional Coffee?</h3>
+      <p class="text-slate-300 mb-8">Try our AI Bio-Scanner or connect directly to discuss sourcing from East Java.</p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="/scanner" class="px-8 py-4 bg-amber-600 hover:bg-amber-500 rounded-xl font-bold transition-all shadow-lg">Try the Bio-Scanner</a>
+        <a href="https://linkedin.com/in/christopherparker" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition-all">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-6 mt-24 py-12 border-t border-white/5">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <p class="text-slate-500 text-sm">&copy; 2026 Java Bridge Coffee. All rights reserved.</p>
+      <div class="flex gap-6 text-slate-400 text-sm">
+        <a href="https://linkedin.com/in/christopherparker" class="hover:text-amber-500 transition">LinkedIn</a>
+        <a href="https://github.com/peterparker1718" class="hover:text-amber-500 transition">GitHub</a>
+        <a href="/" class="hover:text-amber-500 transition">Home</a>
+        <a href="/scanner" class="hover:text-amber-500 transition">Scanner</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
