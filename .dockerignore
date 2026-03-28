@@ -1,0 +1,67 @@
+# Version control
+.git
+.gitignore
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Testing & coverage
+.tox/
+.nox/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Dev tooling
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# IDE / editor configs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files (never send secrets to the daemon)
+.env
+.env.*
+.envrc
+
+# Local secrets / credentials
+*.json.key
+service-account*.json
+
+# Documentation
+docs/
+*.md
+LICENSE
+
+# Docker files themselves (avoid recursive context confusion)
+Dockerfile*
+.dockerignore
+
+# Deployment scripts (not needed inside the container)
+deploy.sh
+cloudbuild.yaml
+
+# OS artifacts
+.DS_Store
+Thumbs.db
